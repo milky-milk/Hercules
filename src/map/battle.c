@@ -3001,7 +3001,11 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 #endif
 
 		if(sc->data[SC_DEFENDER] &&
+#ifdef RENEWAL
 			((flag&(BF_LONG|BF_WEAPON)) == (BF_LONG|BF_WEAPON) || skill_id == CR_ACIDDEMONSTRATION))
+#else
+			(flag&(BF_LONG|BF_WEAPON)) == (BF_LONG|BF_WEAPON))
+#endif
 			damage = damage * ( 100 - sc->data[SC_DEFENDER]->val2 ) / 100;
 #ifndef RENEWAL
 		if(sc->data[SC_GS_ADJUSTMENT] &&
