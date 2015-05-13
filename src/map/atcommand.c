@@ -9153,7 +9153,7 @@ ACMD(channel) {
 						return false;
 					} else {
 						channel->set_options(chan, chan->options | k);
-						sprintf(atcmd_output, msg_fd(fd,1454), opt_str[k],chan->name);//option '%s' is now enabled for channel '%s'
+						sprintf(atcmd_output, msg_fd(fd,1450), opt_str[k],chan->name);//option '%s' is now enabled for channel '%s'
 						clif->message(fd, atcmd_output);
 					}
 				} else {
@@ -10263,7 +10263,7 @@ void atcommand_doload(void) {
 
 void atcommand_expand_message_table(void) {
 	RECREATE(atcommand->msg_table, char **, ++atcommand->max_message_table);
-	RECREATE(atcommand->msg_table[atcommand->max_message_table - 1], char *, MAX_MSG);
+	CREATE(atcommand->msg_table[atcommand->max_message_table - 1], char *, MAX_MSG);
 }
 
 void do_init_atcommand(bool minimal) {

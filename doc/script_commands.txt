@@ -3973,15 +3973,6 @@ night mode or day mode:
 
 	if (!isnight()) mes "I only prowl in the night.";
 
-*isday()
-    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    @ /!\ This command is deprecated @
-    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-This command is deprecated and it should not be used in new scripts, as it
-is likely to be removed at a later time. Please consider using !isnight()
-instead.
-
 ---------------------------------------
 
 *checkre(<type>)
@@ -3997,6 +3988,14 @@ by the type parameter.
  4 - RENEWAL_LVDMG (renewal level modifier on damage)
  5 - RENEWAL_EDP (renewal enchant deadly poison algorithm)
  6 - RENEWAL_ASPD (renewal ASPD)
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    @ /!\ This command is deprecated @
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+This command is deprecated and it should not be used in new scripts, as it
+is likely to be removed at a later time. Please consider using the respective
+constants RENEWAL, RENEWAL_CAST, RENEWAL_DROP, RENEWAL_EXP, RENEWAL_LVDMG,
+RENEWAL_EDP, RENEWAL_ASPD instead.
 
 ---------------------------------------
 //=====================================
@@ -5905,7 +5904,7 @@ controlling each of the spawned mobs with the unit* commands shown below.
 For example:
 
 	// We'll make a poring which will automatically attack invoking player:
-	.@mobGID = monster "Prontera",150,150,"Poring",PORING,1; // PORING is defined in the mob db and its value is 1002
+	.@mobGID = monster("prontera",150,150,"Poring",PORING,1); // PORING is defined in the mob db and its value is 1002
 	unitattack .@mobGID, getcharid(3); // Attacker GID, attacked GID
 
 The way you can get the GID of more than only one monster is looping 

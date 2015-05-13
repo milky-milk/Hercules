@@ -4240,12 +4240,12 @@ struct Damage battle_calc_weapon_attack(struct block_list *src,struct block_list
 
 	//Initial Values
 	wd.type=0; //Normal attack
-	wd.div_=skill_id?skill->get_num(skill_id,skill_lv):1;
+	wd.div_ = skill_id ? skill->get_num(skill_id,skill_lv) : 1;
 	wd.amotion=(skill_id && skill->get_inf(skill_id)&INF_GROUND_SKILL)?0:sstatus->amotion; //Amotion should be 0 for ground skills.
 	if(skill_id == KN_AUTOCOUNTER)
 		wd.amotion >>= 1;
 	wd.dmotion=tstatus->dmotion;
-	wd.blewcount=skill->get_blewcount(skill_id,skill_lv);
+	wd.blewcount = skill_id ? skill->get_blewcount(skill_id,skill_lv) : 0;
 	wd.flag = BF_WEAPON; //Initial Flag
 	wd.flag |= (skill_id||wflag)?BF_SKILL:BF_NORMAL; // Baphomet card's splash damage is counted as a skill. [Inkfish]
 	wd.dmg_lv=ATK_DEF; //This assumption simplifies the assignation later
@@ -4376,9 +4376,9 @@ struct Damage battle_calc_weapon_attack(struct block_list *src,struct block_list
 		return wd;
 	}
 
-	s_ele = s_ele_ = skill->get_ele(skill_id, skill_lv);
-	if( !skill_id || s_ele == -1 )
-	{ //Take weapon's element
+	s_ele = s_ele_ = skill_id ? skill->get_ele(skill_id, skill_lv) : -1;
+	if (s_ele == -1) {
+		//Take weapon's element
 		s_ele = sstatus->rhw.ele;
 		s_ele_ = sstatus->lhw.ele;
 		if (sd && sd->charm_type != CHARM_TYPE_NONE && sd->charm_count >= MAX_SPIRITCHARM) {
@@ -4389,13 +4389,14 @@ struct Damage battle_calc_weapon_attack(struct block_list *src,struct block_list
 			s_ele = sd->bonus.arrow_ele;
 		if( battle_config.attack_attr_none&src->type )
 			n_ele = true; //Weapon's element is "not elemental"
-	}
-	else if( s_ele == -2 ) //Use enchantment's element
+	} else if (s_ele == -2) {
+		//Use enchantment's element
 		s_ele = s_ele_ = status_get_attack_sc_element(src,sc);
-	else if( s_ele == -3 ) //Use random element
+	} else if (s_ele == -3) {
+		//Use random element
 		s_ele = s_ele_ = rnd()%ELE_MAX;
-	switch( skill_id )
-	{
+	}
+	switch (skill_id) {
 		case GS_GROUNDDRIFT:
 			s_ele = s_ele_ = wflag; //element comes in flag.
 			break;
@@ -6389,7 +6390,9 @@ int battle_check_target( struct block_list *src, struct block_list *target,int f
 			TBL_SKILL *su = (TBL_SKILL*)target;
 			if( !su->group )
 				return 0;
-			if( skill->get_inf2(su->group->skill_id)&INF2_TRAP && su->group->unit_id != UNT_USED_TRAPS) { //Only a few skills can target traps...
+			if( skill->get_inf2(su->group->skill_id)&INF2_TRAP && 
+				su->group->unit_id != UNT_USED_TRAPS &&
+				su->group->unit_id != UNT_NETHERWORLD ) { //Only a few skills can target traps...
 				switch( battle->get_current_skill(src) ) {
 					case RK_DRAGONBREATH:// it can only hit traps in pvp/gvg maps
 					case RK_DRAGONBREATH_WATER:
